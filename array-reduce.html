@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Videos</title>
+  </head>
+  <body>
+    <ul class="videos"></ul>
+    <script>
+      const times = [
+        { id: 1, time: "5:43" },
+        { id: 2, time: "2:33" },
+        { id: 3, time: "3:45" },
+        { id: 4, time: "0:47" },
+        { id: 5, time: "5:21" },
+        { id: 6, time: "6:56" },
+        { id: 7, time: "3:46" },
+        { id: 8, time: "5:25" },
+        { id: 9, time: "3:14" },
+        { id: 10, time: "3:31" },
+        { id: 11, time: "5:59" },
+        { id: 12, time: "3:07" },
+        { id: 13, time: "11:29" },
+        { id: 14, time: "8:57" },
+        { id: 15, time: "5:49" },
+        { id: 16, time: "5:52" },
+        { id: 17, time: "5:50" },
+        { id: 18, time: "9:13" },
+        { id: 19, time: "11:51" },
+        { id: 20, time: "7:58" },
+        { id: 21, time: "4:40" },
+        { id: 22, time: "4:45" },
+        { id: 23, time: "6:46" },
+        { id: 24, time: "7:24" },
+        { id: 25, time: "7:12" },
+        { id: 26, time: "5:23" },
+        { id: 27, time: "3:34" },
+        { id: 28, time: "8:22" },
+        { id: 29, time: "5:17" },
+        { id: 30, time: "3:10" },
+        { id: 31, time: "4:43" },
+        { id: 32, time: "19:43" },
+        { id: 33, time: "0:47" },
+        { id: 34, time: "0:47" },
+        { id: 35, time: "3:14" },
+        { id: 36, time: "3:59" },
+        { id: 37, time: "2:43" },
+        { id: 38, time: "4:17" },
+        { id: 39, time: "6:56" },
+        { id: 40, time: "3:05" },
+        { id: 41, time: "2:06" },
+        { id: 42, time: "1:59" },
+        { id: 43, time: "1:49" },
+        { id: 44, time: "3:36" },
+        { id: 45, time: "7:10" },
+        { id: 46, time: "3:44" },
+        { id: 47, time: "3:44" },
+        { id: 48, time: "4:36" },
+        { id: 49, time: "3:16" },
+        { id: 50, time: "1:10" },
+        { id: 51, time: "6:10" },
+        { id: 52, time: "2:14" },
+        { id: 53, time: "3:44" },
+        { id: 54, time: "5:05" },
+        { id: 55, time: "6:03" },
+        { id: 56, time: "12:39" },
+        { id: 57, time: "1:56" },
+        { id: 58, time: "4:04" }
+      ];
+
+      // grab seconds value from each node:
+      // console.log(times);
+      const seconds = times
+        .map(node => node.time)
+        .map(timeCode => {
+          const [mins, secs] = timeCode.split(":").map(parseFloat); // convert each to an integer
+          return mins * 60 + secs;
+        })
+        .reduce((total, vidSeconds) => total + vidSeconds);
+
+      let secondsLeft = seconds;
+      const hours = Math.floor(secondsLeft / 3600);
+      secondsLeft = secondsLeft % 3600;
+
+      const mins = Math.floor(secondsLeft / 60);
+      secondsLeft = secondsLeft % 6;
+
+      console.log({ secondsLeft, hours, mins });
+
+      function renderTimes(arr) {
+        return arr
+          .map(item => {
+            return `
+              <li data-time=${item.time}>
+                Video ${item.id}
+              </li>
+            `;
+          })
+          .join("");
+      }
+      document
+        .querySelector(".videos")
+        // insertAdjacentHTML === (innerHTML+=)
+        .insertAdjacentHTML("beforeend", renderTimes(times));
+    </script>
+  </body>
+</html>

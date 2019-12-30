@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Key Detection</title>
+    <h1>KONAMI CODE</h1>
+    <h2>Press: ️↑↑↓↓abab←→←→ba</h2>
+    <h3>Press: Enter when complete.</h3>
+    <p class="entered"></p>
+    <script
+      type="text/javascript"
+      src="https://www.cornify.com/js/cornify.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      // const secretCode = "wesbos";
+      let validated = false;
+      failedMsg = "sorry wrong key";
+      let entered = document.querySelector(".entered");
+      const secretCode =
+        "ArrowUpArrowUpArrowDownArrowDownababArrowLeftArrowRightArrowLeftArrowRightba";
+      const pressed = [];
+      window.addEventListener("keyup", function(e) {
+        if (!validated) {
+          // console.log("key", e.key);
+          // udpate dom with each entered key:
+          if (e.key === "Enter") return validate(pressed.join(""));
+          pressed.push(e.key);
+          pressed.splice(
+            // makes sure array is spliced from the end of the array:
+            -secretCode.length - 1,
+            // how much of the array to trim:
+            pressed.length - secretCode.length
+          );
+          if (entered.innerHTML === failedMsg) entered.innerHTML = " ";
+          entered.insertAdjacentHTML("beforeend", `${e.key} + `);
+          console.log("pressed", pressed.join(""));
+        }
+      });
+
+      function validate(string) {
+        // clear pressed array each time enter is pressed
+        pressed.length = 0;
+        if (string.includes(secretCode)) {
+          console.log("Ding!");
+          validated = true;
+          cornify_add();
+        } else {
+          entered.innerHTML = failedMsg;
+        }
+      }
+    </script>
+  </body>
+  <style>
+    .entered {
+      background: gray;
+      color: white;
+      border: none;
+      border-radius: 0.5em;
+      padding: 4px;
+    }
+  </style>
+</html>

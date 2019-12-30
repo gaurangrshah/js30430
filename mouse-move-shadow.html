@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+    <div class="hero">
+      <h1 contenteditable>🔥WOAH!</h1>
+    </div>
+
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
+
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+      }
+    </style>
+
+    <script>
+      // select elements:
+      const hero = document.querySelector(".hero");
+      const text = hero.querySelector("h1");
+
+      const walk = 300; // max number of pixels to stretch
+
+      function shadow(e) {
+        // grab dimensions of current hero element:
+        const { offsetWidth: width, offsetHeight: height } = hero;
+
+        // grab cursor position:
+        let { offsetX: x, offsetY: y } = e;
+        // console.log("default x, y", x, y);
+        if (this !== e.target) {
+          // if "this" does not equal hero.. this === "hero"
+          x = x + e.target.offsetLeft;
+          y = y + e.target.offsetTop;
+          // adds the child elements dimensions to "this" element,
+          // essentially allowing us to ignore the child's dimension as a separate element
+          // by adding it's dimensions to the "hero" which is referenced by 'this'
+          // console.log("x,y compensated", x, y);
+        }
+        // if walk === 100 then the range for walk becomes -50 - 50, using 0 as the midpoint
+        const xWalk = Math.round((x / width) * walk - walk / 2);
+        const yWalk = Math.round((y / height) * walk - walk / 2);
+        console.log(xWalk, yWalk);
+
+        // use current positions to set shadow element
+        text.style.textShadow = `
+          ${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.7),
+          ${xWalk * -1}px ${yWalk}px 0 rgba(0,255,255,0.7),
+          ${yWalk}px ${xWalk * -1}px 0 rgba(0,255,0,0.7),
+          ${yWalk * -1}px ${xWalk}px 0 rgba(0,0,255,0.7)
+        `;
+      }
+      hero.addEventListener("mousemove", shadow);
+    </script>
+  </body>
+</html>
