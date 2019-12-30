@@ -8,8 +8,43 @@
     <div class="words" contenteditable></div>
 
     <script>
+      // firefox = SpeechRecognition || chrome = webkitSpeechRecognition
+      //NOTE: not working in opera browser
       window.SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      const recognition = new SpeechRecognition();
+      // updates with each recognized event while speaking
+      recognition.interimResults = true;
+      // otherwise will not populate results until speaking stops.
+      recognition.lang = 'en-US';
+
+      // output spoken/recognized text to a p element:
+      let p = document.createElement('p');
+      const words = document.querySelector('.words');
+      words.appendChild(p);
+
+      recognition.addEventListener('result', e => {
+        console.log(e);
+        const transcript = Array.from(e.results)
+          .map(result => result[0])
+          .map(result => result.transcript)
+          .join('');
+
+        // replace transcribed content keywords with provided emoji
+        const poopScript = transcript.replace(/poop|poo|shit|dump/gi, '💩');
+
+        p.textContent = poopScript;
+        if (e.results[0].isFinal) {
+          // check if speaking has stopped
+          p = document.createElement('p');
+          // create a new paragraph when speaking stops
+          words.appendChild(p);
+        }
+      });
+
+      recognition.addEventListener('end', recognition.start);
+      recognition.start();
     </script>
 
     <style>
@@ -19,7 +54,7 @@
 
       body {
         background: #ffc600;
-        font-family: "helvetica neue";
+        font-family: 'helvetica neue';
         font-weight: 200;
         font-size: 20px;
       }
@@ -49,7 +84,7 @@
       }
 
       .words:before {
-        content: "";
+        content: '';
         position: absolute;
         width: 4px;
         top: 0;
