@@ -1,46 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Understanding JavaScript's Capture</title>
-  </head>
-  <body class="bod">
-    <div class="one">
-      <div class="two">
-        <div class="three"></div>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Understanding JavaScript's Capture</title>
+</head>
+
+<body class="bod">
+  <div class="one">
+    <div class="two">
+      <div class="three"></div>
     </div>
+  </div>
 
-    <style>
-      html {
-        box-sizing: border-box;
-      }
+  <style>
+    html {
+      box-sizing: border-box;
+    }
 
-      *,
-      *:before,
-      *:after {
-        box-sizing: inherit;
-      }
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
 
-      div {
-        width: 100%;
-        padding: 100px;
-      }
+    div {
+      width: 100%;
+      padding: 100px;
+    }
 
-      .one {
-        background: thistle;
-      }
+    .one {
+      background: thistle;
+    }
 
-      .two {
-        background: mistyrose;
-      }
+    .two {
+      background: mistyrose;
+    }
 
-      .three {
-        background: coral;
-      }
-    </style>
+    .three {
+      background: coral;
+    }
+  </style>
 
-    <button></button>
-    <script></script>
-  </body>
+  <button></button>
+  <script>
+    const divs = document.querySelectorAll('div');
+    const button = document.querySelector('button');
+
+    function logText(e) {
+      e.stopPropagation(); // will stop any bubbling up of event
+      console.log('propagated', this.classList.value) // inner most div will trigger all three div click events.
+    }
+
+    divs.forEach(div => div.addEventListener('click', logText, {
+      // 3rd argument provides an options object
+      capture: false, // if set to true will reverse bubbling order
+      // once: true // limits to one click -- removes listener after first click (disables)
+      // note the behavior will cause propagation to the next clickable element in the order, and trigger that element's listener.
+    }))
+
+    // button.addEventListener('click', () => {
+    //   console.log('Click!!!');
+    // }, {
+    //   once: true
+    // });
+
+  </script>
+</body>
+
 </html>
