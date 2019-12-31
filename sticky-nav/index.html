@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <title>Sticky Nav</title>
   <link rel="stylesheet" href="style.css" />
+
 </head>
 
 <body>
@@ -272,10 +273,14 @@
     </p>
   </div>
 
-  <script>
+  <script type="module">
+    import { debounce } from "../utils.js"
+
     const nav = document.querySelector('#main');
     const topOfNav = nav.offsetTop;
+
     function fixNav() {
+
       if (window.scrollY >= topOfNav) {
         console.log({ topNav: topOfNav, scroll: window.scrollY })
         document.body.style.paddingTop = nav.offsetHeight + 'px';
@@ -287,7 +292,7 @@
       }
     }
 
-    window.addEventListener('scroll', fixNav)
+    window.addEventListener('scroll', debounce(fixNav))
   </script>
 </body>
 

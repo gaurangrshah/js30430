@@ -82,7 +82,7 @@ li.logo {
   max-width: 0;
   /* NO FIXED WIDTH */
   overflow: hidden;
-  transition: all 0.5s;
+  transition: all 0.25s ease-out;
 
   background: white;
   font-weight: 600;
