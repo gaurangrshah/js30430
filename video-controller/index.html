@@ -20,6 +20,31 @@
       </div>
     </div>
 
-    <script></script>
+    <script>
+      const speed = document.querySelector('.speed');
+      const bar = speed.querySelector('.speed-bar');
+      const video = document.querySelector('.flex');
+
+      function handleMove(e) {
+        const y = e.pageY - this.offsetTop; // get relative mouse position at cursor
+        // console.log(y);
+
+        const percent = y / this.offsetHeight;
+        // calculate the percent based on element's height
+        console.log(percent);
+
+        const min = 0.4; // define min speed
+        const max = 4; // define max speed
+
+        const height = Math.round(percent * 100) + '%'; // round percent value to string
+
+        const playbackRate = percent * (max - min) + min; // use min/max to set currect bar height
+        bar.style.height = height; // set height based on percentage
+        bar.textContent = playbackRate.toFixed(2) + '×'; // update text label for slider
+        video.playbackRate = playbackRate; // uses the updated playback rate to set video speed
+      }
+
+      speed.addEventListener('mousemove', handleMove);
+    </script>
   </body>
 </html>
